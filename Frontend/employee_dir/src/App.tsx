@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch("http://51.20.189.216/employees");
+        const response = await fetch("http://51.20.189.216/api/employees");
         if (!response.ok) {
           throw new Error("Failed to fetch employees");
         }
@@ -25,6 +25,7 @@ function App() {
     };
 
     fetchEmployees();
+    console.log(employees);
   }, []);
 
   const addBtn = async () => {
@@ -36,7 +37,7 @@ function App() {
       formData.append("image", image);
 
       try {
-        const response = await fetch("http://51.20.189.216//employees", {
+        const response = await fetch("http://51.20.189.216/api/employees", {
           method: "POST",
           body: formData,
         });
