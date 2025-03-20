@@ -7,7 +7,13 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://51.20.189.216"], // Replace with your frontend URL
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -22,6 +28,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 const BUCKET_NAME = process.env.S3_BUCKET;
 const TABLE_NAME = process.env.DYNAMO_TABLE;
+console.log(TABLE_NAME);
 
 // Upload Employee Data & Image
 app.post("/employees", upload.single("image"), async (req, res) => {
@@ -68,4 +75,6 @@ app.get("/employees", async (req, res) => {
 });
 
 const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`Server running on port ${PORT}`)
+);
